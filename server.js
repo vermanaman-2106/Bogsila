@@ -162,6 +162,35 @@ app.get('/api/tshirts', async (req, res) => {
   }
 });
 
+// Text search across products (name/title/productName)
+app.get('/api/search', async (req, res) => {
+  try {
+    const q = String(req.query.q || '').trim();
+    const limit = Number(req.query.limit) || 20;
+    if (!q) return res.json({ items: [] });
+    const db = await getDb();
+    const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+
+    const items = await db
+      .collection(COLLECTIONS.all)
+      .find({
+        $or: [
+          { name: regex },
+          { title: regex },
+          { productName: regex },
+          { category: regex },
+          { description: regex },
+        ],
+      })
+      .limit(limit)
+      .toArray();
+
+    res.json({ items });
+  } catch (err) {
+    res.status(500).json({ error: err?.message || 'Search failed' });
+  }
+});
+
 // Graceful shutdown
 async function closeMongo() {
   try {
