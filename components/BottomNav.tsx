@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function BottomNav() {
   const navigation = useNavigation();
+  const rootNav = (navigation as any).getParent?.() ?? navigation; // prefer root (Stack) navigator
   const route = useRoute();
 
   const activeRoute = route.name;
@@ -13,23 +14,23 @@ export default function BottomNav() {
   return (
     <View className="absolute bottom-6 left-6 right-6">
       <View className="flex-row items-center justify-between rounded-3xl border border-gray-600 bg-black px-8 py-3">
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Home')}>
+        <TouchableOpacity onPress={() => (rootNav as any).navigate('Home', { screen: 'HOME' })}>
           <Ionicons name="home-outline" size={28} color={colorFor('Home')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Search')}>
+        <TouchableOpacity onPress={() => (rootNav as any).navigate('Search')}>
           <Ionicons name="search-outline" size={28} color={colorFor('Search')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Favourites')}>
+        <TouchableOpacity onPress={() => (rootNav as any).navigate('Favourites')}>
           <Ionicons name="heart-outline" size={28} color={colorFor('Favourites')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Profile')}>
+        <TouchableOpacity onPress={() => (rootNav as any).navigate('Home', { screen: 'PROFILE' })}>
           <Ionicons name="person-outline" size={28} color={colorFor('Profile')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Cart')}>
+        <TouchableOpacity onPress={() => (rootNav as any).navigate('Home', { screen: 'CART' })}>
           <Ionicons name="bag-outline" size={28} color={colorFor('Cart')} />
         </TouchableOpacity>
       </View>

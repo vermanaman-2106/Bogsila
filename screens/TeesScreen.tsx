@@ -61,7 +61,10 @@ export default function TeesScreen() {
         renderItem={({ item }) => {
           const title = item.name || item.title || item.productName || 'Product';
           const price = item.price || item.amount || item.mrp;
-          const img = item.image || item.imageUrl || item.thumbnail || item.img;
+          const rawImage = (item as any)?.image;
+          const img = Array.isArray(rawImage)
+            ? rawImage[0]
+            : (rawImage || (item as any)?.imageUrl || (item as any)?.thumbnail || (item as any)?.img);
           return (
             <TouchableOpacity className="w-[48%]" activeOpacity={0.85} onPress={() => (navigation as any).navigate('ProductDetail', { item })}>
               <View className="rounded-3xl overflow-hidden bg-white">

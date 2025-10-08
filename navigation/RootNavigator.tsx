@@ -44,6 +44,7 @@ function MainDrawer() {
         }}
       >
         <Drawer.Screen name="HOME" component={HomeScreen} />
+        <Drawer.Screen name="BOGSILA EXCLUSIVE" component={CoordScreen} />
         <Drawer.Screen name="ALL PRODUCTS" component={Allproductsscreen} />
         <Drawer.Screen name="PROFILE" component={ProfileScreen} />
         <Drawer.Screen name="CART" component={CartScreen} />

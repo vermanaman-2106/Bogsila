@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, FlatList } from 'react-native';
+import BottomNav from '../components/BottomNav';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SearchScreen() {
@@ -44,6 +45,7 @@ export default function SearchScreen() {
           </View>
         )}
       />
+      <BottomNav />
     </View>
   );
 }
