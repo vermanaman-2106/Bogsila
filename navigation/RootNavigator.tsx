@@ -58,7 +58,7 @@ export default function RootNavigator() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={MainDrawer} />
-        {/* Additional screens accessible via navigation but hidden from Drawer */}
+        {/* Collection screens */}
         <Stack.Screen
           name="Shirts"
           component={ShirtsScreen}
@@ -109,6 +109,7 @@ export default function RootNavigator() {
             headerTitle: 'Exclusives',
           }}
         />
+        {/* Bottom nav screens */}
         <Stack.Screen
           name="Favourites"
           component={FavouritesScreen}
@@ -129,6 +130,27 @@ export default function RootNavigator() {
             headerTitle: 'Search',
           }}
         />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#000' },
+            headerTintColor: '#fff',
+            headerTitle: 'Profile',
+          }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={CartScreen}
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#000' },
+            headerTintColor: '#fff',
+            headerTitle: 'Cart',
+          }}
+        />
+        {/* Product detail screen */}
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetailScreen}

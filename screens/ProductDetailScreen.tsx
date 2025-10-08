@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, Alert, FlatList, Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import BottomNav from '../components/BottomNav';
+import { getTokens, getUser, clearAuth } from '../utils/authStorage';
 
 type Product = {
   _id?: string;
@@ -32,6 +34,9 @@ export default function ProductDetailScreen() {
 
   const sizeOptions = (item as any)?.sizes || ['S', 'M', 'L', 'XL'];
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [tokens, setTokens] = useState<{ access: string; refresh: string } | null>(null);
 
   // Build gallery from common fields
   const rawGallery = Array.isArray((item as any)?.image)
@@ -48,6 +53,112 @@ export default function ProductDetailScreen() {
   const [alsoBought, setAlsoBought] = useState<any[]>([]);
   const BASE_URL = 'http://localhost:3001';
   const categoryKey = String((item as any)?.category || '').toLowerCase();
+
+  // Load user data and check if product is in favorites
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  async function loadUserData() {
+    try {
+      const storedTokens = await getTokens();
+      const storedUser = await getUser();
+      
+      if (storedTokens && storedUser) {
+        setTokens(storedTokens);
+        setUser(storedUser);
+        
+        // Check if this product is in favorites
+        const response = await fetch(`${BASE_URL}/api/me`, {
+          headers: { Authorization: `Bearer ${storedTokens.access}` },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          const favoriteIds = data.user.favorites || [];
+          setIsFavorite(favoriteIds.includes(item._id));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load user data:', error);
+    }
+  }
+
+  async function toggleFavorite() {
+    if (!user || !tokens?.access) {
+      Alert.alert('Login Required', 'Please log in to add products to favorites');
+      return;
+    }
+
+    // Check if token is expired
+    try {
+      const tokenPayload = JSON.parse(atob(tokens.access.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
+      
+      if (tokenPayload.exp < currentTime) {
+        console.log('Token is expired, clearing auth');
+        setUser(null);
+        setTokens(null);
+        await clearAuth();
+        Alert.alert('Session Expired', 'Please log in again');
+        return;
+      }
+    } catch (error) {
+      console.log('Invalid token format, clearing auth');
+      setUser(null);
+      setTokens(null);
+      await clearAuth();
+      Alert.alert('Session Expired', 'Please log in again');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/me`, {
+        headers: { Authorization: `Bearer ${tokens.access}` },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const currentFavorites = data.user.favorites || [];
+        
+        let newFavorites;
+        if (isFavorite) {
+          // Remove from favorites
+          newFavorites = currentFavorites.filter((id: string) => id !== item._id);
+        } else {
+          // Add to favorites
+          newFavorites = [...currentFavorites, item._id];
+        }
+
+        // Update favorites
+        const updateResponse = await fetch(`${BASE_URL}/api/me`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${tokens.access}`,
+          },
+          body: JSON.stringify({ favorites: newFavorites }),
+        });
+
+        if (updateResponse.ok) {
+          setIsFavorite(!isFavorite);
+          console.log('Favorite updated successfully:', newFavorites);
+          Alert.alert(
+            isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+            isFavorite 
+              ? 'Product removed from your favorites' 
+              : 'Product added to your favorites'
+          );
+        } else {
+          console.error('Failed to update favorites:', updateResponse.status);
+          Alert.alert('Error', 'Failed to update favorites');
+        }
+      }
+    } catch (error) {
+      console.error('Failed to toggle favorite:', error);
+      Alert.alert('Error', 'Failed to update favorites');
+    }
+  }
 
   useEffect(() => {
     async function load() {
@@ -128,10 +239,19 @@ export default function ProductDetailScreen() {
       <View className="flex-row items-center justify-between mt-6 mb-6">
         <TouchableOpacity
           className="flex-1 mr-3 items-center justify-center rounded-2xl bg-white py-3"
-          onPress={() => Alert.alert('Added to Favourites', title)}
+          onPress={toggleFavorite}
           activeOpacity={0.9}
         >
-          <Text className="text-black font-semibold">Favourite</Text>
+          <View className="flex-row items-center">
+            <Ionicons 
+              name={isFavorite ? "heart" : "heart-outline"} 
+              size={20} 
+              color={isFavorite ? "#EF4444" : "#000"} 
+            />
+            <Text className="text-black font-semibold ml-2">
+              {isFavorite ? 'Favorited' : 'Favourite'}
+            </Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           className="flex-1 ml-3 items-center justify-center rounded-2xl bg-[#111111] py-3 border border-gray-700"
