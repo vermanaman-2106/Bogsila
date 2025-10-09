@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 
@@ -16,48 +16,49 @@ import FavouritesScreen from '../screens/FavouritesScreen';
 import SearchScreen from '../screens/SearchScreen';
 import Allproductsscreen from '../screens/Allproductsscreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
+import OrderHistoryScreen from '../screens/OrderHistoryScreen';
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-function MainDrawer() {
-  return (
-      <Drawer.Navigator
-        initialRouteName="HOME"
-        screenOptions={{
-          headerTitle: () => (
-            <Image
-              source={require('../assest/header.png')}
-              style={{ width: 200, height: 37 }}
-              resizeMode="contain"
-            />
-          ),
-          headerTitleAlign: 'center',
-          headerStyle: { backgroundColor: '#000' },
-          headerTintColor: '#fff',
-          drawerStyle: { width: 300, backgroundColor: '#000' },
-          drawerActiveTintColor: '#ffffff',
-          drawerInactiveTintColor: '#b0b0b0',
-          drawerActiveBackgroundColor: '#111111',
-          drawerItemStyle: { height: 50 },
-          drawerLabelStyle: { fontSize: 16 },
-        }}
-      >
-        <Drawer.Screen name="HOME" component={HomeScreen} />
-        <Drawer.Screen name="BOGSILA EXCLUSIVE" component={CoordScreen} />
-        <Drawer.Screen name="ALL PRODUCTS" component={Allproductsscreen} />
-        <Drawer.Screen name="PROFILE" component={ProfileScreen} />
-        <Drawer.Screen name="CART" component={CartScreen} />
-        <Drawer.Screen name="FAVOURITE" component={FavouritesScreen} />
-      </Drawer.Navigator>
-  );
-}
+// function MainDrawer() {
+//   return (
+//       <Drawer.Navigator
+//         initialRouteName="HOME"
+//         screenOptions={{
+//           headerTitle: () => (
+//             <Image
+//               source={require('../assest/header.png')}
+//               style={{ width: 200, height: 37 }}
+//               resizeMode="contain"
+//             />
+//           ),
+//           headerTitleAlign: 'center',
+//           headerStyle: { backgroundColor: '#000' },
+//           headerTintColor: '#fff',
+//           drawerStyle: { width: 300, backgroundColor: '#000' },
+//           drawerActiveTintColor: '#ffffff',
+//           drawerInactiveTintColor: '#b0b0b0',
+//           drawerActiveBackgroundColor: '#111111',
+//           drawerItemStyle: { height: 50 },
+//           drawerLabelStyle: { fontSize: 16 },
+//         }}
+//       >
+//         <Drawer.Screen name="HOME" component={HomeScreen} />
+//         <Drawer.Screen name="BOGSILA EXCLUSIVE" component={CoordScreen} />
+//         <Drawer.Screen name="ALL PRODUCTS" component={Allproductsscreen} />
+//         <Drawer.Screen name="PROFILE" component={ProfileScreen} />
+//         <Drawer.Screen name="CART" component={CartScreen} />
+//         <Drawer.Screen name="FAVOURITE" component={FavouritesScreen} />
+//       </Drawer.Navigator>
+//   );
+// }
 
 export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={MainDrawer} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         {/* Collection screens */}
         <Stack.Screen
           name="Shirts"
@@ -148,6 +149,16 @@ export default function RootNavigator() {
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
             headerTitle: 'Cart',
+          }}
+        />
+        <Stack.Screen
+          name="Orders"
+          component={OrderHistoryScreen}
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#000' },
+            headerTintColor: '#fff',
+            headerTitle: 'Orders',
           }}
         />
         {/* Product detail screen */}

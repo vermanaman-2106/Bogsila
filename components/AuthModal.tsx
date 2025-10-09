@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { storeTokens, storeUser } from '../utils/authStorage';
+import { BASE_URL } from '../config/api';
 
 type Props = {
   visible: boolean;
@@ -8,7 +9,6 @@ type Props = {
   onSuccess: (payload: { user: any; tokens: { access: string; refresh: string } }) => void;
 };
 
-const BASE_URL = 'http://localhost:3001';
 
 export default function AuthModal({ visible, onClose, onSuccess }: Props) {
   const [mode, setMode] = useState<'login' | 'register'>('login');

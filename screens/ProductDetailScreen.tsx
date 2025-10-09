@@ -4,6 +4,11 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNav from '../components/BottomNav';
 import { getTokens, getUser, clearAuth } from '../utils/authStorage';
+import { addToCart } from '../utils/cartStorage';
+import { BASE_URL } from '../config/api';
+// Use require to avoid TS type issues for the native module
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+// const RazorpayCheckout = require('react-native-razorpay');
 
 type Product = {
   _id?: string;
@@ -51,7 +56,6 @@ export default function ProductDetailScreen() {
   // Similar and Also Bought
   const [similar, setSimilar] = useState<any[]>([]);
   const [alsoBought, setAlsoBought] = useState<any[]>([]);
-  const BASE_URL = 'http://localhost:3001';
   const categoryKey = String((item as any)?.category || '').toLowerCase();
 
   // Load user data and check if product is in favorites
@@ -82,6 +86,22 @@ export default function ProductDetailScreen() {
     } catch (error) {
       console.error('Failed to load user data:', error);
     }
+  }
+
+  async function handleBuyNow() {
+    if (!selectedSize) {
+      Alert.alert('Select size', 'Please pick a size first.');
+      return;
+    }
+    
+    // Mock payment for Expo Go testing
+    Alert.alert(
+      'Payment Feature', 
+      'Payment integration requires a development build. This is a demo version for Expo Go testing.',
+      [
+        { text: 'OK', style: 'default' }
+      ]
+    );
   }
 
   async function toggleFavorite() {
@@ -255,12 +275,26 @@ export default function ProductDetailScreen() {
         </TouchableOpacity>
         <TouchableOpacity
           className="flex-1 ml-3 items-center justify-center rounded-2xl bg-[#111111] py-3 border border-gray-700"
-          onPress={() => {
+          onPress={async () => {
             if (!selectedSize) {
               Alert.alert('Select size', 'Please pick a size first.');
               return;
             }
-            Alert.alert('Added to Cart', `${title} - ${selectedSize}`);
+            const numeric = Number(price) || 0;
+            const primary = primaryImage;
+            try {
+              await addToCart({
+                productId: String(item._id || title),
+                name: title,
+                price: numeric,
+                image: typeof primary === 'string' ? primary : undefined,
+                size: selectedSize,
+                quantity: 1,
+              });
+              Alert.alert('Added to Cart', `${title} - ${selectedSize}`);
+            } catch (e: any) {
+              Alert.alert('Error', e?.message || 'Failed to add to cart');
+            }
           }}
           activeOpacity={0.9}
         >
@@ -270,13 +304,7 @@ export default function ProductDetailScreen() {
 
       <TouchableOpacity
         className="items-center justify-center rounded-2xl bg-white py-3 mb-6"
-        onPress={() => {
-          if (!selectedSize) {
-            Alert.alert('Select size', 'Please pick a size first.');
-            return;
-          }
-          Alert.alert('Buy Now', `${title} - ${selectedSize}`);
-        }}
+        onPress={handleBuyNow}
         activeOpacity={0.9}
       >
         <Text className="text-black font-semibold">Buy Now</Text>

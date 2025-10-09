@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, Image, Alert, ActivityIndicator
 import { Ionicons } from '@expo/vector-icons';
 import BottomNav from '../components/BottomNav';
 import { getTokens, getUser, clearAuth } from '../utils/authStorage';
+import { BASE_URL } from '../config/api';
 
 interface Product {
   _id: string;
@@ -69,7 +70,7 @@ export default function FavouritesScreen({ navigation }: any) {
 
   async function loadSampleProducts() {
     try {
-      const response = await fetch('http://localhost:3001/api/products?limit=6');
+      const response = await fetch('${BASE_URL}/api/products?limit=6');
       if (response.ok) {
         const data = await response.json();
         setFavorites(data.items || []);
@@ -116,7 +117,7 @@ export default function FavouritesScreen({ navigation }: any) {
       setLoading(true);
       console.log('Making API call to /api/me with token:', tokens.access?.substring(0, 20) + '...');
       
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         headers: { Authorization: `Bearer ${tokens.access}` },
       });
       
@@ -139,7 +140,7 @@ export default function FavouritesScreen({ navigation }: any) {
         // Fetch all products and filter by favorite IDs
         console.log('Fetching favorites for user:', favoriteIds);
         try {
-          const allProductsResponse = await fetch('http://localhost:3001/api/products');
+          const allProductsResponse = await fetch('${BASE_URL}/api/products');
           if (allProductsResponse.ok) {
             const allProductsData = await allProductsResponse.json();
             const allProducts = allProductsData.items || [];
@@ -200,7 +201,7 @@ export default function FavouritesScreen({ navigation }: any) {
       const currentFavorites = favorites.map(fav => fav._id);
       const updatedFavorites = currentFavorites.filter(id => id !== productId);
 
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

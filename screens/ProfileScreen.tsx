@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert, ScrollView, TextInput, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import BottomNav from '../components/BottomNav';
 import AuthModal from '../components/AuthModal';
 import { getTokens, getUser, clearAuth } from '../utils/authStorage';
+import { BASE_URL } from '../config/api';
 
 interface Address {
   id: string;
@@ -17,6 +19,7 @@ interface Address {
 }
 
 export default function ProfileScreen() {
+  const navigation = useNavigation<any>();
   const [authVisible, setAuthVisible] = useState(false);
   const [user, setUser] = useState<any | null>(null);
   const [tokens, setTokens] = useState<{ access: string; refresh: string } | null>(null);
@@ -83,7 +86,7 @@ export default function ProfileScreen() {
     }
     
     try {
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         headers: { Authorization: `Bearer ${tokens.access}` },
       });
       if (response.ok) {
@@ -110,7 +113,7 @@ export default function ProfileScreen() {
         await clearAuth();
         return;
       }
-      await fetch('http://localhost:3001/api/auth/logout', {
+      await fetch(`${BASE_URL}/api/auth/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${tokens.access}` },
       });
@@ -129,7 +132,7 @@ export default function ProfileScreen() {
 
   async function updateProfile(field: string, value: string) {
     try {
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -177,7 +180,7 @@ export default function ProfileScreen() {
         ? addresses.map(addr => addr.id === editingAddress.id ? { ...addressForm, id: editingAddress.id, isDefault: editingAddress.isDefault } : addr)
         : [...addresses, { ...addressForm, id: Date.now().toString(), isDefault: addresses.length === 0 }];
 
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -200,7 +203,7 @@ export default function ProfileScreen() {
   async function deleteAddress(addressId: string) {
     try {
       const newAddresses = addresses.filter(addr => addr.id !== addressId);
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('${BASE_URL}/api/me', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -336,7 +339,7 @@ export default function ProfileScreen() {
             <View className="mb-8">
               <Text className="text-white text-lg font-semibold mb-4">Account</Text>
               
-              <TouchableOpacity className="bg-gray-900 rounded-2xl p-4 mb-3">
+              <TouchableOpacity className="bg-gray-900 rounded-2xl p-4 mb-3" onPress={() => (navigation as any).navigate('Favourites')}>
                 <View className="flex-row items-center">
                   <Ionicons name="heart-outline" size={24} color="white" />
                   <Text className="text-white ml-3">Favorites</Text>
@@ -344,7 +347,7 @@ export default function ProfileScreen() {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity className="bg-gray-900 rounded-2xl p-4 mb-3">
+              <TouchableOpacity className="bg-gray-900 rounded-2xl p-4 mb-3" onPress={() => (navigation as any).navigate('Orders')}>
                 <View className="flex-row items-center">
                   <Ionicons name="bag-outline" size={24} color="white" />
                   <Text className="text-white ml-3">Orders</Text>

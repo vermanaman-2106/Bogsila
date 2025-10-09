@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BottomNav from '../components/BottomNav';
+import { BASE_URL } from '../config/api';
 
 export default function AllProductsScreen() {
   const [loading, setLoading] = useState(true);
@@ -9,7 +10,6 @@ export default function AllProductsScreen() {
   const [items, setItems] = useState<any[]>([]);
   const navigation = useNavigation();
 
-  const BASE_URL = 'http://localhost:3001';
 
   async function loadProducts() {
     try {

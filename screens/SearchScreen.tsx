@@ -3,6 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, FlatList, Image } from 'react-
 import BottomNav from '../components/BottomNav';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { BASE_URL } from '../config/api';
 
 export default function SearchScreen() {
   const [query, setQuery] = useState('');
@@ -12,7 +13,6 @@ export default function SearchScreen() {
   const suggestions = ['Shirt', 'Tees', 'Bottoms', 'Co-ord', 'Bogsila'];
   const [popular, setPopular] = useState<any[]>([]);
 
-  const BASE_URL = 'http://localhost:3001';
   async function handleSearch() {
     const q = query.trim();
     if (!q) { setResults([]); return; }

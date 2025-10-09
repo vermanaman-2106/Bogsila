@@ -3,25 +3,31 @@
     "name": "my-expo-app",
     "slug": "my-expo-app",
     "version": "1.0.0",
-
     "web": {},
-
     "experiments": {
       "tsconfigPaths": true
     },
-
     "plugins": [],
-
     "orientation": "portrait",
-    
-
     "userInterfaceStyle": "light",
-
-    
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bogsila.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
-    "android": {}
+    "android": {
+      "package": "com.bogsila.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "e9aa1efd-35e7-49fb-abf4-beb40e57e07f"
+      }
+    },
+    "owner": "framexstudio"
   }
 }
