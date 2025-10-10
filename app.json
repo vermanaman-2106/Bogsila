@@ -3,7 +3,15 @@
     "name": "Bogsila",
     "slug": "bogsila",
     "version": "1.0.0",
-    "web": {},
+    "web": {
+      "bundler": "metro"
+    },
+    "splash": {
+      "image": "./assest/header.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "icon": "./assest/header.png",
     "experiments": {
       "tsconfigPaths": true
     },
