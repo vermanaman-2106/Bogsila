@@ -8,13 +8,21 @@ export interface AuthTokens {
   refresh: string;
 }
 
+export interface FavoriteItem {
+  productId: string;
+  name: string;
+  image: string;
+  price: number;
+  addedAt: string | Date;
+}
+
 export interface User {
   _id: string;
   email: string;
   name: string;
   phone: string;
   addresses?: any[];
-  favorites?: string[];
+  favorites?: FavoriteItem[];
 }
 
 // Store tokens in AsyncStorage

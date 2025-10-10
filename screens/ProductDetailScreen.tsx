@@ -84,8 +84,8 @@ export default function ProductDetailScreen() {
         
         if (response.ok) {
           const data = await response.json();
-          const favoriteIds = data.user.favorites || [];
-          setIsFavorite(favoriteIds.includes(item._id));
+          const favorites = data.user.favorites || [];
+          setIsFavorite(favorites.some((fav: any) => fav.productId === item._id));
         }
       }
     } catch (error) {
@@ -153,7 +153,16 @@ export default function ProductDetailScreen() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${tokens.access}`,
         },
-        body: JSON.stringify({ productId: item._id, action }),
+        body: JSON.stringify({ 
+          productId: item._id, 
+          action,
+          productData: action === 'add' ? {
+            name: title,
+            image: primaryImage,
+            price: price,
+            ...item
+          } : undefined
+        }),
       });
 
       if (response.ok) {

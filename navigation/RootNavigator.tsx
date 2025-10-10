@@ -67,7 +67,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Shirts',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -77,7 +84,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Tees',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -87,7 +101,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Bottoms',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -97,7 +118,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Co-ord',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -107,7 +135,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Exclusives',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         {/* Bottom nav screens - using different names to avoid conflicts */}
@@ -118,7 +153,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Favourites',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -128,7 +170,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Search',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -138,7 +187,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Profile',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -148,7 +204,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Cart',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -158,7 +221,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Orders',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
         {/* Product detail screen */}
@@ -169,7 +239,14 @@ export default function RootNavigator() {
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },
             headerTintColor: '#fff',
-            headerTitle: 'Product',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
           }}
         />
       </Stack.Navigator>
