@@ -62,6 +62,16 @@ export default function SearchScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Browse Products Button */}
+      <TouchableOpacity
+        className="mt-4 bg-white rounded-2xl py-4 px-6 flex-row items-center justify-center"
+        onPress={() => (navigation as any).navigate('ALL PRODUCTS')}
+        activeOpacity={0.9}
+      >
+        <Ionicons name="grid-outline" size={20} color="#000" />
+        <Text className="text-black font-semibold ml-2 text-lg">Browse All Products</Text>
+      </TouchableOpacity>
+
       {/* Quick suggestions */}
       <View className="mt-4">
         <Text className="text-gray-300 mb-2">Quick suggestions</Text>

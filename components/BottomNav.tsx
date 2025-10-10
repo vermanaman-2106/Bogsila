@@ -17,20 +17,20 @@ export default function BottomNav() {
           <Ionicons name="home-outline" size={28} color={colorFor('Home')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Search')}>
-          <Ionicons name="search-outline" size={28} color={colorFor('Search')} />
+        <TouchableOpacity onPress={() => (navigation as any).navigate('SearchStack')}>
+          <Ionicons name="search-outline" size={28} color={colorFor('SearchStack')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Favourites')}>
-          <Ionicons name="heart-outline" size={28} color={colorFor('Favourites')} />
+        <TouchableOpacity onPress={() => (navigation as any).navigate('FavouritesStack')}>
+          <Ionicons name="heart-outline" size={28} color={colorFor('FavouritesStack')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Profile')}>
-          <Ionicons name="person-outline" size={28} color={colorFor('Profile')} />
+        <TouchableOpacity onPress={() => (navigation as any).navigate('ProfileStack')}>
+          <Ionicons name="person-outline" size={28} color={colorFor('ProfileStack')} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => (navigation as any).navigate('Cart')}>
-          <Ionicons name="bag-outline" size={28} color={colorFor('Cart')} />
+        <TouchableOpacity onPress={() => (navigation as any).navigate('CartStack')}>
+          <Ionicons name="bag-outline" size={28} color={colorFor('CartStack')} />
         </TouchableOpacity>
       </View>
     </View>

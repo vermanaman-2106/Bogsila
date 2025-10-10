@@ -13,6 +13,8 @@ export interface User {
   email: string;
   name: string;
   phone: string;
+  addresses?: any[];
+  favorites?: string[];
 }
 
 // Store tokens in AsyncStorage

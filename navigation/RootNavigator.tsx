@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 
@@ -18,47 +18,47 @@ import Allproductsscreen from '../screens/Allproductsscreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
 
-// const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-// function MainDrawer() {
-//   return (
-//       <Drawer.Navigator
-//         initialRouteName="HOME"
-//         screenOptions={{
-//           headerTitle: () => (
-//             <Image
-//               source={require('../assest/header.png')}
-//               style={{ width: 200, height: 37 }}
-//               resizeMode="contain"
-//             />
-//           ),
-//           headerTitleAlign: 'center',
-//           headerStyle: { backgroundColor: '#000' },
-//           headerTintColor: '#fff',
-//           drawerStyle: { width: 300, backgroundColor: '#000' },
-//           drawerActiveTintColor: '#ffffff',
-//           drawerInactiveTintColor: '#b0b0b0',
-//           drawerActiveBackgroundColor: '#111111',
-//           drawerItemStyle: { height: 50 },
-//           drawerLabelStyle: { fontSize: 16 },
-//         }}
-//       >
-//         <Drawer.Screen name="HOME" component={HomeScreen} />
-//         <Drawer.Screen name="BOGSILA EXCLUSIVE" component={CoordScreen} />
-//         <Drawer.Screen name="ALL PRODUCTS" component={Allproductsscreen} />
-//         <Drawer.Screen name="PROFILE" component={ProfileScreen} />
-//         <Drawer.Screen name="CART" component={CartScreen} />
-//         <Drawer.Screen name="FAVOURITE" component={FavouritesScreen} />
-//       </Drawer.Navigator>
-//   );
-// }
+function MainDrawer() {
+  return (
+      <Drawer.Navigator
+        initialRouteName="HOME"
+        screenOptions={{
+          headerTitle: () => (
+            <Image
+              source={require('../assest/header.png')}
+              style={{ width: 200, height: 37 }}
+              resizeMode="contain"
+            />
+          ),
+          headerTitleAlign: 'center',
+          headerStyle: { backgroundColor: '#000' },
+          headerTintColor: '#fff',
+          drawerStyle: { width: 300, backgroundColor: '#000' },
+          drawerActiveTintColor: '#ffffff',
+          drawerInactiveTintColor: '#b0b0b0',
+          drawerActiveBackgroundColor: '#111111',
+          drawerItemStyle: { height: 50 },
+          drawerLabelStyle: { fontSize: 16 },
+        }}
+      >
+        <Drawer.Screen name="HOME" component={HomeScreen} />
+        <Drawer.Screen name="BOGSILA EXCLUSIVE" component={CoordScreen} />
+        <Drawer.Screen name="ALL PRODUCTS" component={Allproductsscreen} />
+        <Drawer.Screen name="PROFILE" component={ProfileScreen} />
+        <Drawer.Screen name="CART" component={CartScreen} />
+        <Drawer.Screen name="FAVOURITE" component={FavouritesScreen} />
+      </Drawer.Navigator>
+  );
+}
 
 export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={MainDrawer} />
         {/* Collection screens */}
         <Stack.Screen
           name="Shirts"
@@ -110,9 +110,9 @@ export default function RootNavigator() {
             headerTitle: 'Exclusives',
           }}
         />
-        {/* Bottom nav screens */}
+        {/* Bottom nav screens - using different names to avoid conflicts */}
         <Stack.Screen
-          name="Favourites"
+          name="FavouritesStack"
           component={FavouritesScreen}
           options={{
             headerShown: true,
@@ -122,7 +122,7 @@ export default function RootNavigator() {
           }}
         />
         <Stack.Screen
-          name="Search"
+          name="SearchStack"
           component={SearchScreen}
           options={{
             headerShown: true,
@@ -132,7 +132,7 @@ export default function RootNavigator() {
           }}
         />
         <Stack.Screen
-          name="Profile"
+          name="ProfileStack"
           component={ProfileScreen}
           options={{
             headerShown: true,
@@ -142,7 +142,7 @@ export default function RootNavigator() {
           }}
         />
         <Stack.Screen
-          name="Cart"
+          name="CartStack"
           component={CartScreen}
           options={{
             headerShown: true,

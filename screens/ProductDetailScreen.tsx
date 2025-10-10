@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, Alert, FlatList, Dimen
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNav from '../components/BottomNav';
-import { getTokens, getUser, clearAuth } from '../utils/authStorage';
+import { getTokens, getUser, clearAuth, storeUser } from '../utils/authStorage';
 import { addToCart } from '../utils/cartStorage';
 import { BASE_URL } from '../config/api';
 // Use require to avoid TS type issues for the native module
@@ -29,6 +29,11 @@ export default function ProductDetailScreen() {
   const navigation = useNavigation();
   const route = useRoute<any>();
   const item: Product = route.params?.item || {};
+
+  console.log('ProductDetailScreen - Route params:', route.params);
+  console.log('ProductDetailScreen - Item received:', item);
+  console.log('ProductDetailScreen - Item ID:', item._id);
+  console.log('ProductDetailScreen - Item name:', item.name);
 
   const title = item.name || item.title || item.productName || 'Product';
   const price = item.price || item.amount || item.mrp;
@@ -133,49 +138,61 @@ export default function ProductDetailScreen() {
     }
 
     try {
-      const response = await fetch(`${BASE_URL}/api/me`, {
-        headers: { Authorization: `Bearer ${tokens.access}` },
-      });
+      const action = isFavorite ? 'remove' : 'add';
+      console.log(`=== ADDING TO FAVORITES ===`);
+      console.log(`${action} product ${item._id} (${item.name}) to/from favorites`);
+      console.log('Product ID:', item._id);
+      console.log('Product name:', item.name);
+      console.log('Action:', action);
+      console.log('API URL:', `${BASE_URL}/api/favorites`);
+      console.log('Token length:', tokens.access?.length);
       
+      const response = await fetch(`${BASE_URL}/api/favorites`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${tokens.access}`,
+        },
+        body: JSON.stringify({ productId: item._id, action }),
+      });
+
       if (response.ok) {
         const data = await response.json();
-        const currentFavorites = data.user.favorites || [];
+        console.log('Favorites API response:', data);
         
-        let newFavorites;
-        if (isFavorite) {
-          // Remove from favorites
-          newFavorites = currentFavorites.filter((id: string) => id !== item._id);
-        } else {
-          // Add to favorites
-          newFavorites = [...currentFavorites, item._id];
-        }
-
-        // Update favorites
-        const updateResponse = await fetch(`${BASE_URL}/api/me`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${tokens.access}`,
-          },
-          body: JSON.stringify({ favorites: newFavorites }),
-        });
-
-        if (updateResponse.ok) {
-          setIsFavorite(!isFavorite);
-          console.log('Favorite updated successfully:', newFavorites);
-          Alert.alert(
-            isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
-            isFavorite 
-              ? 'Product removed from your favorites' 
-              : 'Product added to your favorites'
-          );
-        } else {
-          console.error('Failed to update favorites:', updateResponse.status);
-          Alert.alert('Error', 'Failed to update favorites');
-        }
+        setIsFavorite(!isFavorite);
+        
+        // Update local user data and save to AsyncStorage
+        const updatedUser = { ...user, favorites: data.favorites };
+        setUser(updatedUser);
+        await storeUser(updatedUser);
+        
+        console.log('=== UPDATING USER DATA ===');
+        console.log('Original user:', user);
+        console.log('Updated user:', updatedUser);
+        console.log('New favorites array:', data.favorites);
+        console.log('Favorite updated and saved to AsyncStorage');
+        
+        Alert.alert(
+          isFavorite ? 'Removed from Favorites' : 'Added to Favorites',
+          isFavorite 
+            ? 'Product removed from your favorites' 
+            : 'Product added to your favorites'
+        );
+      } else {
+        const errorText = await response.text();
+        console.log('=== FAVORITES API FAILED ===');
+        console.error('Failed to update favorites:', response.status, errorText);
+        console.log('Response status:', response.status);
+        console.log('Response status text:', response.statusText);
+        console.log('Error response:', errorText);
+        Alert.alert('Error', 'Failed to update favorites');
       }
     } catch (error) {
+      console.log('=== FAVORITES API ERROR ===');
       console.error('Failed to toggle favorite:', error);
+      console.log('Error type:', typeof error);
+      console.log('Error message:', (error as Error).message);
       Alert.alert('Error', 'Failed to update favorites');
     }
   }
