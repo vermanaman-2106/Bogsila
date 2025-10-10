@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Bogsila",
-    "slug": "bogsila",
+    "slug": "my-expo-app",
     "version": "1.0.0",
     "web": {
       "bundler": "metro"
