@@ -99,14 +99,25 @@ export default function ProductDetailScreen() {
       return;
     }
     
-    // Mock payment for Expo Go testing
-    Alert.alert(
-      'Payment Feature', 
-      'Payment integration requires a development build. This is a demo version for Expo Go testing.',
-      [
-        { text: 'OK', style: 'default' }
-      ]
-    );
+    // Add item to cart and navigate to checkout
+    const numeric = Number(price) || 0;
+    const primary = primaryImage;
+    
+    try {
+      await addToCart({
+        productId: String(item._id || title),
+        name: title,
+        price: numeric,
+        image: typeof primary === 'string' ? primary : undefined,
+        size: selectedSize,
+        quantity: 1,
+      });
+      
+      // Navigate to checkout
+      (navigation as any).navigate('Checkout');
+    } catch (e: any) {
+      Alert.alert('Error', e?.message || 'Failed to add to cart');
+    }
   }
 
   async function toggleFavorite() {

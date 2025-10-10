@@ -17,6 +17,7 @@ import SearchScreen from '../screens/SearchScreen';
 import Allproductsscreen from '../screens/Allproductsscreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
 import OrderHistoryScreen from '../screens/OrderHistoryScreen';
+import CheckoutScreen from '../screens/CheckoutScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -235,6 +236,24 @@ export default function RootNavigator() {
         <Stack.Screen
           name="ProductDetail"
           component={ProductDetailScreen}
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#000' },
+            headerTintColor: '#fff',
+            headerTitle: () => (
+              <Image
+                source={require('../assest/header.png')}
+                style={{ width: 200, height: 37 }}
+                resizeMode="contain"
+              />
+            ),
+            headerTitleAlign: 'center',
+          }}
+        />
+        {/* Checkout screen */}
+        <Stack.Screen
+          name="Checkout"
+          component={CheckoutScreen}
           options={{
             headerShown: true,
             headerStyle: { backgroundColor: '#000' },

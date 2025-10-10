@@ -110,7 +110,7 @@ export default function CartScreen() {
                   Alert.alert('Cart is empty');
                   return;
                 }
-                navigation.navigate('Home' as never); // or navigate to a checkout screen if added
+                navigation.navigate('Checkout' as never);
               }}
             >
               <Text className="text-black font-semibold">Checkout</Text>

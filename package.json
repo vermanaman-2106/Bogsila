@@ -1,5 +1,5 @@
 {
-  "name": "my-expo-app",
+    "name": "bogsila",
   "version": "1.0.0",
   "scripts": {
     "android": "expo run:android",
@@ -45,8 +45,8 @@
   },
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
-  "keywords": [],
-  "author": "",
+  "keywords": ["ecommerce", "fashion", "react-native", "expo", "bogsila"],
+  "author": "Bogsila Team",
   "license": "ISC",
-  "description": ""
+  "description": "Bogsila - Premium Fashion E-commerce Mobile App"
 }

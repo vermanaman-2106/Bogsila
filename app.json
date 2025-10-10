@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "my-expo-app",
-    "slug": "my-expo-app",
+    "name": "Bogsila",
+    "slug": "bogsila",
     "version": "1.0.0",
     "web": {},
     "experiments": {
@@ -28,6 +28,7 @@
         "projectId": "e9aa1efd-35e7-49fb-abf4-beb40e57e07f"
       }
     },
-    "owner": "framexstudio"
+    "owner": "framexstudio",
+    "description": "Bogsila - Premium Fashion E-commerce App"
   }
 }
