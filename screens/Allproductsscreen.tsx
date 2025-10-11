@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import BottomNav from '../components/BottomNav';
@@ -15,7 +15,7 @@ export default function AllProductsScreen() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${BASE_URL}/api/products?limit=1000`);
+      const res = await fetch(`${BASE_URL}/api/products?limit=50`);
       const json = await res.json();
       setItems(Array.isArray(json.items) ? json.items : []);
     } catch (e: any) {
@@ -28,6 +28,41 @@ export default function AllProductsScreen() {
   useEffect(() => {
     loadProducts();
   }, []);
+
+  const renderItem = useCallback(({ item }: { item: any }) => {
+    const title = item.name || item.title || item.productName || 'Product';
+    const price = item.price || item.amount || item.mrp;
+    const rawImage = (item as any)?.image;
+    const img = Array.isArray(rawImage)
+      ? rawImage[0]
+      : (rawImage || (item as any)?.imageUrl || (item as any)?.thumbnail || (item as any)?.img);
+    
+    return (
+      <TouchableOpacity 
+        className="w-[48%]" 
+        activeOpacity={0.85} 
+        onPress={() => (navigation as any).navigate('ProductDetail', { item })}
+      >
+        <View className="rounded-3xl overflow-hidden bg-white">
+          {img ? (
+            <Image 
+              source={{ uri: img }} 
+              style={{ width: '100%', height: 200 }} 
+              resizeMode="cover"
+              loadingIndicatorSource={require('../assest/header.png')}
+              fadeDuration={200}
+            />
+          ) : (
+            <View style={{ width: '100%', height: 200 }} className="items-center justify-center bg-gray-200">
+              <Text>No Image</Text>
+            </View>
+          )}
+        </View>
+        <Text className="text-white mt-3 text-base" numberOfLines={1}>{title}</Text>
+        {price ? <Text className="text-gray-400 text-sm">₹{price}</Text> : null}
+      </TouchableOpacity>
+    );
+  }, [navigation]);
 
   if (loading) {
     return (
@@ -58,30 +93,17 @@ export default function AllProductsScreen() {
         contentContainerStyle={{ paddingBottom: 24 }}
         columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
         keyExtractor={(item, idx) => String(item?._id || idx)}
-        renderItem={({ item }) => {
-          const title = item.name || item.title || item.productName || 'Product';
-          const price = item.price || item.amount || item.mrp;
-          const rawImage = (item as any)?.image;
-          const img = Array.isArray(rawImage)
-            ? rawImage[0]
-            : (rawImage || (item as any)?.imageUrl || (item as any)?.thumbnail || (item as any)?.img);
-          return (
-            <TouchableOpacity className="w-[48%]" activeOpacity={0.85} onPress={() => (navigation as any).navigate('ProductDetail', { item })}>
-              <View className="rounded-3xl overflow-hidden bg-white">
-                {img ? (
-                  <Image source={{ uri: img }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
-                ) : (
-                  <View style={{ width: '100%', height: 200 }} className="items-center justify-center bg-gray-200">
-                    <Text>No Image</Text>
-                  </View>
-                )}
-              </View>
-              <Text className="text-white mt-3 text-base" numberOfLines={1}>{title}</Text>
-              {price ? <Text className="text-gray-400 text-sm">₹{price}</Text> : null}
-            </TouchableOpacity>
-          );
-        }}
+        renderItem={renderItem}
         ListEmptyComponent={<Text className="text-gray-400">No products found.</Text>}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        initialNumToRender={6}
+        getItemLayout={(data, index) => ({
+          length: 250,
+          offset: 250 * Math.floor(index / 2),
+          index,
+        })}
       />
       <BottomNav />
     </View>

@@ -17,8 +17,8 @@ import { getTokens, getUser } from '../utils/authStorage';
 import { getCart, clearCart } from '../utils/cartStorage';
 import { BASE_URL } from '../config/api';
 
-// Razorpay integration
-const RazorpayCheckout = require('react-native-razorpay');
+// Razorpay integration - temporarily disabled for Expo Go
+// const RazorpayCheckout = require('react-native-razorpay');
 
 interface CartItem {
   productId: string;
@@ -159,21 +159,41 @@ export default function CheckoutScreen() {
         theme: { color: '#000000' },
       };
 
-      // Open Razorpay checkout
-      RazorpayCheckout.open(options)
-        .then(async (data: any) => {
-          console.log('Payment Success:', data);
-          await processSuccessfulPayment(data, order.id);
-        })
-        .catch((error: any) => {
-          console.log('Payment Error:', error);
-          if (error.description !== 'Payment Cancelled') {
-            Alert.alert('Payment Failed', error.description || 'Payment could not be completed');
-          }
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      // Open Razorpay checkout - temporarily disabled for Expo Go
+      // RazorpayCheckout.open(options)
+      
+      // Temporary mock payment for Expo Go
+      Alert.alert(
+        'Payment Mock',
+        'This is a mock payment for Expo Go. In production, Razorpay will be enabled.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => {
+              setLoading(false);
+            },
+          },
+          {
+            text: 'Pay Now',
+            onPress: async () => {
+              try {
+                // Mock successful payment
+                Alert.alert('Success', 'Payment completed! (Mock)');
+                await processSuccessfulPayment({}, order.id);
+                // Clear cart and navigate
+                clearCart();
+                navigation.goBack();
+              } catch (error) {
+                console.log('Mock Payment Error:', error);
+                Alert.alert('Payment Failed', 'Mock payment failed');
+              } finally {
+                setLoading(false);
+              }
+            },
+          },
+        ]
+      );
     } catch (error) {
       console.error('Payment error:', error);
       Alert.alert('Error', 'Failed to process payment');
@@ -492,7 +512,7 @@ export default function CheckoutScreen() {
       </ScrollView>
 
       {/* Place Order Button */}
-      <View className="px-6 pb-6 pt-4 bg-black border-t border-gray-800">
+      <View className="px-6 pb-24 pt-4 bg-black border-t border-gray-800">
         <TouchableOpacity
           className={`rounded-2xl py-4 items-center ${
             !selectedAddress || loading

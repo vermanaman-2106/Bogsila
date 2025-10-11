@@ -15,7 +15,7 @@ export default function CoordScreen() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch(`${BASE_URL}/api/coord?limit=1000`);
+      const res = await fetch(`${BASE_URL}/api/coord?limit=50`);
       const json = await res.json();
       setItems(Array.isArray(json.items) ? json.items : []);
     } catch (e: any) {
@@ -69,7 +69,13 @@ export default function CoordScreen() {
             <TouchableOpacity className="w-[48%]" activeOpacity={0.85} onPress={() => (navigation as any).navigate('ProductDetail', { item })}>
               <View className="rounded-3xl overflow-hidden bg-white">
                 {img ? (
-                  <Image source={{ uri: img }} style={{ width: '100%', height: 200 }} resizeMode="cover" />
+                  <Image 
+                    source={{ uri: img }} 
+                    style={{ width: '100%', height: 200 }} 
+                    resizeMode="cover"
+                    loadingIndicatorSource={require('../assest/header.png')}
+                    fadeDuration={200}
+                  />
                 ) : (
                   <View style={{ width: '100%', height: 200 }} className="items-center justify-center bg-gray-200">
                     <Text>No Image</Text>
@@ -82,6 +88,15 @@ export default function CoordScreen() {
           );
         }}
         ListEmptyComponent={<Text className="text-gray-400">No products found.</Text>}
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={10}
+        windowSize={10}
+        initialNumToRender={6}
+        getItemLayout={(data, index) => ({
+          length: 250,
+          offset: 250 * Math.floor(index / 2),
+          index,
+        })}
       />
       <BottomNav />
     </View>

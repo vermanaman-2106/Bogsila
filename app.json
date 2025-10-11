@@ -37,6 +37,12 @@
       }
     },
     "owner": "framexstudio",
-    "description": "Bogsila - Premium Fashion E-commerce App"
+    "description": "Bogsila - Premium Fashion E-commerce App",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e9aa1efd-35e7-49fb-abf4-beb40e57e07f"
+    }
   }
 }

@@ -32,7 +32,7 @@ export default function SearchScreen() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${BASE_URL}/api/products?limit=12`);
+        const res = await fetch(`${BASE_URL}/api/products?limit=20`);
         const json = await res.json();
         setPopular(Array.isArray(json.items) ? json.items : []);
       } catch (_) {}
