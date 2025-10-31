@@ -53,6 +53,53 @@ npm run android
 ```
 If using a device/emulator, replace `http://localhost:3001` in screens with your machine IP (e.g., `http://192.168.1.x:3001`).
 
+## How Clients Can Access the App
+
+### QR Code Scanner
+Scan this QR code with Expo Go to access the app:
+
+```
+[QR CODE WILL BE PASTED HERE]
+```
+
+---
+
+### Step 1: Install Expo Go App
+- **Android**: Download [Expo Go](https://play.google.com/store/apps/details?id=host.exp.exponent) from Google Play Store
+- **iOS**: Download [Expo Go](https://apps.apple.com/app/expo-go/id982107779) from App Store
+
+### Step 2: Scan QR Code
+You will receive a QR code from the developer. Use one of these methods to scan it:
+
+**On Android:**
+1. Open the Expo Go app
+2. Tap "Scan QR Code"
+3. Point your camera at the QR code
+4. The app will load automatically
+
+**On iPhone:**
+1. Open the Camera app (built-in iPhone camera)
+2. Point it at the QR code
+3. Tap the notification that appears
+4. The app will open in Expo Go
+
+### Step 3: Wait for App to Load
+- First time loading takes about 30 seconds
+- The Bogsila app will appear on your phone
+- You can now browse and shop!
+
+### Alternative: Enter URL Manually
+If you have a URL (like `exp://192.168.1.100:8081`):
+1. Open Expo Go app
+2. Tap "Enter URL manually"
+3. Paste the URL you received
+4. Tap "Connect"
+
+### Troubleshooting
+- **Can't scan QR code?** Make sure your phone has camera permissions enabled
+- **App won't load?** Check your internet connection and try again
+- **Need help?** Contact the developer for support
+
 ## Structure
 ```
 App.tsx
