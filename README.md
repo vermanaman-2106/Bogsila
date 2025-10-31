@@ -1,6 +1,23 @@
 # Bogsila (Expo + React Native)
 
-A mobile storefront built with Expo, React Native, NativeWind, and an Express + MongoDB backend.
+**Bogsila** is a modern, full-stack fashion e-commerce mobile application designed to provide users with a seamless shopping experience. Built with cutting-edge technologies, the app offers a complete online shopping platform with product browsing, shopping cart management, secure payments, and user account features.
+
+## Description
+
+Bogsila is a premium fashion e-commerce mobile app that allows users to browse, search, and purchase fashion products including shirts, t-shirts, bottoms, co-ords, and exclusive collections. The app features a sleek dark-themed user interface with intuitive navigation, making it easy for users to discover and purchase their favorite fashion items.
+
+The application includes comprehensive e-commerce functionality including user authentication, product catalog management, shopping cart with size selection, favorites system, secure payment integration via Razorpay, cash on delivery options, order history tracking, and profile management with address handling. Built with React Native and Expo for cross-platform compatibility, the app delivers a native-like experience on both iOS and Android devices.
+
+**Key Highlights:**
+- Full-featured e-commerce shopping experience
+- Secure payment processing with Razorpay integration
+- User authentication and profile management
+- Real-time product search and filtering
+- Shopping cart and favorites functionality
+- Order history and tracking
+- Modern dark theme UI/UX design
+- Cloud-based image management with Cloudinary
+- Scalable MongoDB Atlas database backend
 
 ## Features
 
